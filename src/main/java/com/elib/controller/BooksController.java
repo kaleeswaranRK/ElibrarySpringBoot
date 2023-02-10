@@ -66,7 +66,7 @@ public class BooksController {
 		Response res= new Response();
 		try {
 			logger.info("get Books API Entry");
-			List<BookProduct> books = userdb.getBooksbyCategory(Integer.parseInt(category));
+			List<BookProduct> books = userdb.getBooksbyCategory(category);
 			if (books==null || books.isEmpty()) {
 				logger.info("get Books API Exit");
 				res.setMessage("No data Found");

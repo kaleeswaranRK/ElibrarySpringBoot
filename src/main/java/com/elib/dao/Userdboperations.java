@@ -99,32 +99,25 @@ public class Userdboperations {
 	}
 
 	
-	public List<BookProduct> getBooksbyCategory(int categoryid) {
+	public List<BookProduct> getBooksbyCategory(String categoryName) {
 		try {
 			logger.info("get book by Category method Entry");
 			List<BookProduct> list = new ArrayList<BookProduct>();
 			Connection connection = datasource.getDBConnection();
 			logger.info("DB connection Establised");
 			PreparedStatement prepareStatement = connection
-					.prepareStatement("EXEC KALEESWARAN_GET_BOOKS_BY_CATEGORY @id=?");
-			prepareStatement.setInt(1, categoryid);
+					.prepareStatement("EXEC KALEESWARAN_GET_BOOKS_BY_CATEGORY @name=?");
+			prepareStatement.setString(1, categoryName);
 			ResultSet result = prepareStatement.executeQuery();
 			logger.info("query executed");
-			if (result.next()) {
 				while (result.next()) {
 					BookProduct book = new BookProduct(result.getInt("BOOK_ID"), result.getString("BOOK_NAME"),
 							result.getString("AUTHOR_NAME"), result.getInt("BOOK_QUANTITY"), result.getDouble("BOOK_PRICE"),
-							categoryid);
+							result.getInt("CATEGORY_ID"));
 					list.add(book);
 				}
 				logger.info("get book by Category method Exit");
 				return list;
-			}
-			else {
-				logger.info("No Data Found");
-				return null;
-			}
-			
 		} catch (SQLException e) {
 			logger.error(e);
 		} catch (Exception e) {
