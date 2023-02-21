@@ -19,15 +19,13 @@ import com.elib.dao.Userdboperations;
 import com.elib.model.BookProduct;
 import com.elib.model.Category;
 import com.elib.model.Response;
-import com.elib.util.ResponseHandler;
 
 @RestController
 @RequestMapping("/product")
 public class BooksController {
 	@Autowired
 	Userdboperations userdb;
-	@Autowired
-	ResponseHandler response;
+
 	Logger logger = LogManager.getLogger(BooksController.class);
 
 	@GetMapping(value = "/getcategories", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,12 +35,14 @@ public class BooksController {
 			logger.info("user get Categories API Entry");
 			List<Category> categories = userdb.getCategories();
 			if (categories==null||categories.isEmpty()) {
+				logger.info("data fetching not successfull");
 				logger.info("user get Categories API Exit");
 				res.setMessage("No data Found");
 				res.setStatus(HttpStatus.NOT_FOUND);
 				res.setDateTime(new Timestamp(new Date().getTime()));
 				return res;
 			} else {
+				logger.info("data fetching successfull");
 				logger.info("user get Categories API Exit");
 				res.setMessage("success");
 				res.setStatus(HttpStatus.OK);
@@ -53,6 +53,7 @@ public class BooksController {
 
 		} catch (Exception e) {
 			logger.error(e);
+			logger.info("data fetching not successfull");
 			logger.info("user get Categories API Exit");
 			res.setMessage("data fetching not successfull");
 			res.setStatus(HttpStatus.NOT_FOUND);
@@ -68,12 +69,14 @@ public class BooksController {
 			logger.info("get Books API Entry");
 			List<BookProduct> books = userdb.getBooksbyCategory(category);
 			if (books==null || books.isEmpty()) {
+				logger.info("data fetching not successfull");
 				logger.info("get Books API Exit");
 				res.setMessage("No data Found");
 				res.setStatus(HttpStatus.NOT_FOUND);
 				res.setDateTime(new Timestamp(new Date().getTime()));
 				return res;
 			} else {
+				logger.info("data fetching successfull");
 				logger.info("get Books API Exit");
 				res.setMessage("success");
 				res.setStatus(HttpStatus.OK);
@@ -84,6 +87,7 @@ public class BooksController {
 
 		} catch (Exception e) {
 			logger.error(e);
+			logger.info("data fetching not successfull");
 			logger.info("get Books API Exit");
 			res.setMessage("data fetching not successfull Exception occured");
 			res.setStatus(HttpStatus.NOT_ACCEPTABLE);

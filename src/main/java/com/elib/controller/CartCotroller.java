@@ -20,26 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elib.dao.Userdboperations;
 import com.elib.model.BookCart;
 import com.elib.model.Response;
-import com.elib.util.ResponseHandler;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 @RestController
 @RequestMapping("/cart")
 public class CartCotroller {
 	@Autowired
 	Userdboperations userdb;
-	@Autowired
-	ResponseHandler response;
 
 	Logger logger = LogManager.getLogger(CartCotroller.class);
 
 	@GetMapping(value = "/cartview/{user}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Response getCartItems(@PathVariable String user) throws JsonProcessingException {
+	public Response getCartItems(@PathVariable String user) {
 		Response res= new Response();
 		try {
 			logger.info("cart view API Entry");
 			List<BookCart> books = userdb.getCartItems(Integer.parseInt(user));
 			if (books==null||books.isEmpty()) {
+				logger.info("data fetching not successfull");
 				logger.info("cart view API Exit");
 				res.setMessage("No data Found");
 				res.setStatus(HttpStatus.NOT_FOUND);
@@ -47,6 +44,7 @@ public class CartCotroller {
 				res.setData(null);
 				return res;
 			} else {
+				logger.info("data fetching successfull");
 				logger.info("cart view API Exit");
 				res.setMessage("success");
 				res.setStatus(HttpStatus.OK);
@@ -57,6 +55,7 @@ public class CartCotroller {
 
 		} catch (Exception e) {
 			logger.error(e);
+			logger.info("data fetching not successfull");
 			res.setMessage("data fetching not successfull");
 			res.setStatus(HttpStatus.NOT_FOUND);
 			res.setDateTime(new Timestamp(new Date().getTime()));
@@ -65,7 +64,7 @@ public class CartCotroller {
 	}
 	
 	@PostMapping(value = "/addtocart", produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response addToCart(@RequestBody BookCart book) throws JsonProcessingException {
+	public Response addToCart(@RequestBody BookCart book){
 		Response res= new Response();
 		try {
 			logger.info("add to cart API Entry");
@@ -128,7 +127,7 @@ public class CartCotroller {
 	public Response cartReduce(@RequestBody BookCart book) {
 		Response res= new Response();
 		try {
-			boolean result = userdb.CartReduce(book.getBook(), book.getQuantity(),book.getPrice(), book.getUser());
+			boolean result = userdb.CartReduce(book.getBook(), book.getQuantity(), book.getUser());
 				if (result) {
 					logger.info("book reduced successfully");
 					res.setMessage("book reduced successfully");

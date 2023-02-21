@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.elib.dao.Userdboperations;
 import com.elib.model.Response;
-import com.elib.util.ResponseHandler;
+
 
 @RestController
 @RequestMapping("/user/")
@@ -24,8 +24,7 @@ public class UserController {
 	Logger logger = LogManager.getLogger(UserController.class);
 	@Autowired
 	Userdboperations userdb;
-	@Autowired
-	ResponseHandler response;
+
 
 	@GetMapping(value = "/verify/{user}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public Response UserVerify(@PathVariable String user) {

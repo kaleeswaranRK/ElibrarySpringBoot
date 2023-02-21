@@ -45,13 +45,14 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("get Password method Exit");
 		return null;
 
 	}
 
 	public String getUser(int userid) {
 		try {
-			logger.info("get Password method Entry");
+			logger.info("get user method Entry");
 			Connection connection = datasource.getDBConnection();
 			logger.info("DB connection Establised");
 			PreparedStatement prepareStatement;
@@ -60,10 +61,10 @@ public class Userdboperations {
 			ResultSet resultSet = prepareStatement.executeQuery();
 			logger.info("query executed");
 			if (resultSet.next()) {
-				logger.info("get Password method Exit");
+				logger.info("get user method Exit");
 				return resultSet.getString("CUSTOMER_PASSWORD");
 			} else {
-				logger.info("get Password method Exit");
+				logger.info("get user method Exit");
 				return null;
 			}
 		} catch (SQLException e) {
@@ -71,6 +72,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("get user method Exit");
 		return null;
 
 	}
@@ -95,6 +97,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("get Categories method Exit");
 		return null;
 	}
 
@@ -123,6 +126,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("get book by Category method Exit");
 		return null;
 	}
 
@@ -138,7 +142,7 @@ public class Userdboperations {
 			logger.info("query executed");
 			
 			while (result.next()) {
-				BookCart cartItem = new BookCart(result.getInt("BOOK_CART_ID"), result.getString("BOOK_NAME"), result.getInt("BOOK_QUANTITY"),
+				BookCart cartItem = new BookCart( result.getString("BOOK_NAME"), result.getInt("BOOK_QUANTITY"),
 						result.getDouble("BOOK_PRICE"), userid);
 				cartItems.add(cartItem);
 			}
@@ -149,6 +153,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("get cart items method Exit");
 		return null;
 	}
 
@@ -165,13 +170,13 @@ public class Userdboperations {
 			ResultSet result = prepareStatement.executeQuery();
 			logger.info("query executed");
 			logger.info("checkCartItem method Exit");
-
 			return result;
 		} catch (SQLException e) {
 			logger.error(e);
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("checkCartItem method Exit");
 		return null;
 
 	}
@@ -228,6 +233,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("getBookByName method Exit");
 		return null;
 
 	}
@@ -258,6 +264,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("addToCart method Exit");
 		return false;
 	}
 
@@ -284,6 +291,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("cartRemove method Exit");
 		return false;
 
 	}
@@ -319,18 +327,20 @@ public class Userdboperations {
 				}
 
 			} else {
-				return addToCart(bookName, Quantity, Price, userid);
+				logger.info("cartAddCount method Exit");
+				return addToCart(bookName, Quantity, Price, userid);	
 			}
 		} catch (SQLException e) {
 			logger.error(e);
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("cartAddCount method Exit");
 		return false;
 
 	}
 
-	public boolean CartReduce(String bookName, int Quantity, double Price, int userid) {
+	public boolean CartReduce(String bookName, int Quantity, int userid) {
 		try {
 			logger.info("CartReduce method Entry");
 			ResultSet result = checkCartItem(userid, bookName);
@@ -373,6 +383,7 @@ public class Userdboperations {
 		} catch (Exception e) {
 			logger.error(e);
 		}
+		logger.info("CartReduce method Exit");
 		return false;
 
 	}

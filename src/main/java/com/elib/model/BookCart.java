@@ -13,8 +13,11 @@ public class BookCart {
 				+ ", userId=" + user + "]";
 	}
 
-	public BookCart(int bookCartId, String book, int quantity, double price, int user) {
-		this.bookCartId = bookCartId;
+	public BookCart() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public BookCart(String book, int quantity, double price, int user) {
 		this.book = book;
 		this.quantity = quantity;
 		this.price = price;
@@ -32,12 +35,15 @@ public class BookCart {
 	public double getPrice() {
 		return price;
 	}
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
 	public int getQuantity() {
 		return quantity;
 	}
+
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
